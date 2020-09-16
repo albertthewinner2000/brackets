@@ -18,28 +18,55 @@ function check(str, bracketsConfig) {
                 if (currentBracket === pairBracket) {
                     //stage3.1 (brackets in pair is same)
                     console.log(`go stage 3.1`);
-                    for (var i = 1; i < arr.length; i += 2) {
-                        if (arr[i] === pairBracket) {
+                    for (var i = 1, counter = 0; i < arr.length; i++) {
+                        if (
+                            i % 2 === 1 &&
+                            arr[i] === pairBracket &&
+                            counter % 2 === 0
+                        ) {
                             pairBracketIndex = i;
-                            console.log(`index ${i} value:${arr[i]} passed, pair Index: ${pairBracketIndex}`)
+                            console.log(
+                                `index ${i} value:${arr[i]} passed, pair Index: ${pairBracketIndex}`
+                            );
                             break;
                         } else {
-                            console.log(`index ${i} value:${arr[i]} did not passed, pair Index: ${pairBracketIndex}`)
+                            counter += arr[i] === currentBracket ? 1 : 0;
+                            console.log(
+                                `index ${i} value:${arr[i]} did not passed, pair Index: ${pairBracketIndex}`
+                            );
                         }
                     }
                 } else {
                     //stage3.2 (brackets in pair is same)
                     console.log(`go stage 3.2`);
-                    for (var i = 1; i < arr.length; i += 2) {
+                    for (
+                        var i = 1, leftSideCounter = (rigthSideCounter = 0);
+                        i < arr.length;
+                        i++
+                    ) {
                         if (
+                            i % 2 === 1 &&
                             arr[i] === pairBracket &&
-                            arr[i + 1] !== pairBracket
-                            ) {
-                                console.log(`index ${i} value:${arr[i]} passed, pair Index: ${pairBracketIndex}`)
-                                pairBracketIndex = i;
-                                break;
-                            } else {
-                                console.log(`index ${i} value:${arr[i]} did not passed, pair Index: ${pairBracketIndex}`)
+                            arr[i + 1] !== pairBracket &&
+                            leftSideCounter === rigthSideCounter
+                        ) {
+                            console.log(
+                                `index ${i} value:${arr[i]} passed, pair Index: ${pairBracketIndex}`
+                            );
+                            pairBracketIndex = i;
+                            break;
+                        } else {
+                            console.log(
+                                `index ${i} value:${arr[i]} did not passed, pair Index: ${pairBracketIndex}`
+                            );
+                            switch (arr[i]) {
+                                case currentBracket:
+                                    leftSideCounter++;
+                                    break;
+                                case pairBracket:
+                                    rigthSideCounter++;
+                                    break;
+                            }
                         }
                     }
                 }
@@ -75,13 +102,7 @@ const config = [
     ["8", "8"],
 ];
 
-const result = check(
-    "{[{}]}",
-    config
-    // const result = check(
-    //     "([[[[(({{{}}}(([](((((((())))||||||))))[[{{|{{}}|}}[[[[]]]]{{{{{}}}}}]]))))]]]])(())",
-    //     config
-);
-// const result = '([[[[(({{{}}}(([](((((((())))||||||))))[[{{|{{}}|}}[[[[]]]]{{{{{}}}}}]]))))]]]])(())'.length
+const result = check("111115611111111156111111112222888888222255778777787755556666777777777766222221111222288888822225577877778775555666677777777776622222", config);
+// const result = 3%2
 
 console.log(result);
